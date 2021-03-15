@@ -53,4 +53,14 @@ app.add_middleware(
     allow_headers=["*"]
 )
 
+import databases
 
+database = databases.Database(DATABASE_URL)
+
+@app.on_event("startup")
+async def startup():
+    await databases.connect()
+
+@app.on_event("shutdown")
+async def shutdown():
+    await databases.disconnect()
