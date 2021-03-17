@@ -2,7 +2,7 @@ import urllib
 import os
 
 host_server = os.environ.get('host_server', 'localhost')
-db_server_port = urllib.parse.quote.plus(str(os.environ.get('db_server_port', '5432')))
+db_server_port = urllib.parse.quote_plus(str(os.environ.get('db_server_port', '5432')))
 database_name = os.environ.get('database_name', 'fastapi')
 db_username = urllib.parse.quote_plus(str(os.environ.get('db_username', 'admin')))
 db_password = urllib.parse.quote_plus(str(os.environ.get('db_password', 'admin')))
@@ -59,11 +59,11 @@ database = databases.Database(DATABASE_URL)
 
 @app.on_event("startup")
 async def startup():
-    await databases.connect()
+    await database.connect()
 
 @app.on_event("shutdown")
 async def shutdown():
-    await databases.disconnect()
+    await database.disconnect()
 
 
 @app.post("/notes", response_model=Note)
